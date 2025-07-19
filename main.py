@@ -4,7 +4,7 @@ import random
 from spaceship import Spaceship
 
 WIDTH = 1200   # ширина игрового окна
-HEIGHT = 1000  # высота игрового окна
+HEIGHT = 700  # высота игрового окна
 FPS = 30  # частота кадров в секунду
 
 BLACK = (0, 0, 0)

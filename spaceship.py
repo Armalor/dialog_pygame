@@ -9,6 +9,13 @@ class Bullet:
         self.texture_rect = self.texture.get_rect()
 
         self.texture_rect.center = (x, y - self.texture_rect.height // 2)
+class Shoot:
+    def __init__(self, keys: ScancodeWrapper, velocity, screen: Surface, B):
+        self.screen = screen
+        screen_width, screen_height = screen.get_size()
+        if keys[pygame.K_SPACE]:
+            self.bullet = Bullet(25, self.texture_rect.center[0], self.texture_rect.top, self.screen)
+
 
 
 class Spaceship:
