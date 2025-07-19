@@ -12,6 +12,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+SPACESKY = (0, 0, 15)
 
 if __name__ == '__main__':
     # создаем игру и окно
@@ -31,7 +32,7 @@ if __name__ == '__main__':
         clock.tick(FPS)
 
         # Рендеринг
-        screen.fill(BLACK)
+        screen.fill(SPACESKY)
 
         for event in pygame.event.get():
             # проверить закрытие окна
