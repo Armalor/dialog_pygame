@@ -2,6 +2,7 @@ import pygame
 import random
 
 from spaceship import Spaceship
+from bullet import BulletRegistry, Bullet
 
 WIDTH = 1200   # ширина игрового окна
 HEIGHT = 1000  # высота игрового окна
@@ -47,6 +48,10 @@ if __name__ == '__main__':
         keys = pygame.key.get_pressed()
         ship.move(keys)
         ship.draw()
+
+        for bullet in BulletRegistry.bullets:  # type Bullet
+            bullet.move()
+            bullet.draw()
 
         # после отрисовки всего, переворачиваем экран
         pygame.display.flip()
