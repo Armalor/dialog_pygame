@@ -47,8 +47,12 @@ class Bullet(ABC):
         self.screen.blit(self.texture, self.texture_rect)
 
 
-class Bullet1 (Bullet):
+class Bullet1(Bullet):
     TEXTURE_FILENAME = "images/blaster/blaster_1_85.png"
+
+
+class Bullet2(Bullet):
+    TEXTURE_FILENAME = "images/blaster/blaster_2_85.png"
 
 
 WIDTH = 1200   # ширина игрового окна
