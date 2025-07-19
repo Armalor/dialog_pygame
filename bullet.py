@@ -52,7 +52,7 @@ class Bullet1(Bullet):
 
 
 class Bullet2(Bullet):
-    TEXTURE_FILENAME = "images/blaster/blaster_2_85.png"
+    TEXTURE_FILENAME = "images/blaster/blaster_2_75.png"
 
 
 WIDTH = 1200   # ширина игрового окна

@@ -3,7 +3,7 @@ from pygame.surface import Surface
 from pygame.key import ScancodeWrapper
 from time import perf_counter
 
-from bullet import Bullet1
+from bullet import Bullet1, Bullet2
 
 
 class Spaceship:
@@ -18,7 +18,7 @@ class Spaceship:
 
         self.velocity = velocity
 
-        self.cooldown = 0.3
+        self.cooldown = 0.4
         self.last_shoot = perf_counter()
 
         # self.bullet = Bullet1(25, self.texture_rect.center[0], self.texture_rect.top, self.screen)
@@ -40,7 +40,7 @@ class Spaceship:
         if keys[pygame.K_SPACE]:
             if perf_counter() - self.last_shoot > self.cooldown:
                 self.last_shoot = perf_counter()
-                _ = Bullet1(25, self.texture_rect.center[0], self.texture_rect.top, self.screen)
+                _ = Bullet2(25, self.texture_rect.center[0], self.texture_rect.top, self.screen)
 
     def draw(self):
         # Отображение текстуры
