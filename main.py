@@ -49,9 +49,11 @@ if __name__ == '__main__':
         ship.move(keys)
         ship.draw()
 
-        for bullet in BulletRegistry.bullets:  # type Bullet
+        for bullet in BulletRegistry.bullets:  # type: Bullet
             bullet.move()
             bullet.draw()
+
+        # print(len(BulletRegistry.bullets))
 
         # после отрисовки всего, переворачиваем экран
         pygame.display.flip()

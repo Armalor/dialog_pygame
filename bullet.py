@@ -38,7 +38,7 @@ class Bullet(ABC):
         BulletRegistry.register(self)
 
     def move(self):
-        if self.texture_rect.top > 0:
+        if self.texture_rect.bottom > 0:
             self.texture_rect.move_ip(0, -self.velocity)
         else:
             BulletRegistry.bullets.remove(self)
