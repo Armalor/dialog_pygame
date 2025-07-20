@@ -1,6 +1,6 @@
 import pygame
-import random
-
+import random as r
+from enemy import Enemy1, Enemyregister
 from spaceship import Spaceship
 from bullet import BulletRegistry, Bullet
 
@@ -23,7 +23,7 @@ if __name__ == '__main__':
     # Внимание! Мы можем создавать класс Spaceship только ПОСЛЕ инициализации screen!
 
     ship = Spaceship(velocity=20, screen=screen)
-
+    enemy = Enemy1(r.randint(1, 1200), -10, velocity=10, screen=screen)
     pygame.display.set_caption("My Game")
     clock = pygame.time.Clock()
 
@@ -39,12 +39,6 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
 
-            # if event.type == pygame.KEYDOWN:
-            #     if event.key == pygame.K_RIGHT:
-            #         color = RED
-            # else:
-            #     color = GREEN
-
         keys = pygame.key.get_pressed()
         ship.move(keys)
         ship.draw()
@@ -52,6 +46,10 @@ if __name__ == '__main__':
         for bullet in BulletRegistry.bullets:  # type: Bullet
             bullet.move()
             bullet.draw()
+
+        for enemy in Enemyregister.enemies:
+            enemy.move()
+            enemy.draw()
 
         # print(len(BulletRegistry.bullets))
 
