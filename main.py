@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
         # Рендеринг
         screen.fill(BLACK)
-
+        if
         for event in pygame.event.get():
             # проверить закрытие окна
             if event.type == pygame.QUIT:
@@ -42,7 +42,7 @@ if __name__ == '__main__':
         keys = pygame.key.get_pressed()
         ship.move(keys)
         ship.draw()
-
+        enemy.spawn()
         for bullet in BulletRegistry.bullets:  # type: Bullet
             bullet.move()
             bullet.draw()

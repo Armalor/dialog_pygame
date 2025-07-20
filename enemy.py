@@ -3,9 +3,9 @@ import pygame
 from pygame.surface import Surface
 from pygame.key import ScancodeWrapper
 from typing import Type, Callable
-import random
+import random as r
 from time import perf_counter
-
+from bullet import BulletRegistry, Bullet
 
 class Enemyregister:
     __instance: 'EnemyRegistry' = None
@@ -32,7 +32,7 @@ class Enemy(ABC):
         self.screen = screen
         screen_width, screen_height = screen.get_size()
 
-        self.texture_rect.center = (x, y - self.texture_rect.height // 2)
+        self.texture_rect.center = (x, -10)
 
         self.velocity = velocity
 
@@ -42,9 +42,9 @@ class Enemy(ABC):
         #_ = Enemy1(25, self.texture_rect.center[0], self.texture_rect.top, self.screen)
 
     def spawn(self):
-        if perf_counter() - self.last_enemy > self.cooldown:
+        if perf_counter() - self.last_enemy > 1:
             self.last_enemy = perf_counter()
-            _ = Enemy1(25, self.texture_rect.center[0], self.texture_rect.top, self.screen)
+            _ = Enemy1(r.randint(1, 1200), -10, velocity=10, screen=self.screen)
     def move(self):
         if self.texture_rect.top < HEIGHT:
             self.texture_rect.move_ip(0, self.velocity)
