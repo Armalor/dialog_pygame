@@ -12,6 +12,7 @@ class Bullet:
         self.texture_rect.center = (x, y - self.texture_rect.height // 2)
         self.screen = screen
         self.velocity = velocity
+        self.alive = True
 
         bullets.append(self)
 
@@ -30,6 +31,7 @@ class Spaceship:
         self.texture_rect = self.texture.get_rect()
         self.screen = screen
         screen_width, screen_height = screen.get_size()
+        self.alive = True
 
         self.texture_rect.center = (screen_width // 2, screen_height - self.texture_rect.height // 2 - 20)
         self.velocity = velocity
@@ -52,9 +54,10 @@ class Enemy:
     def __init__(self, velocity, x, y, screen: Surface):
         self.texture = pygame.image.load("images/prisheleccc.png").convert_alpha()
         self.texture_rect = self.texture.get_rect()
-        self.texture_rect.center = (0, 100)
+        self.texture_rect.center = (x, y)
         self.screen = screen
         self.velocity = velocity
+        self.alive = True
 
         enemies.append(self)
 
@@ -62,7 +65,35 @@ class Enemy:
         self.screen.blit(self.texture, self.texture_rect)
 
     def move(self):
-        if self.texture_rect.bottom > 0:
-            self.texture_rect.move_ip(0, self.velocity)
-        else:
-            enemies.remove(self)
+        self.texture_rect.move_ip(0, self.velocity)
+
+
+def collusion(ship: Spaceship, height: int):
+    global bullets, enemies
+
+    for enemy in enemies[:]:
+
+        if not enemy.alive:
+            continue
+
+        if ship.texture_rect.colliderect(enemy.texture_rect) or enemy.texture_rect.center[1] > height:
+            ship.alive = False
+
+        for bullet in bullets[:]:
+            if not bullet.alive:
+                continue
+
+            if enemy.texture_rect.colliderect(bullet.texture_rect):
+                enemy.alive = False
+                bullet.alive = False
+
+
+def update():
+    global bullets, enemies
+    for enemy in enemies:
+        if not enemy.alive:
+            enemies.remove(enemy)
+
+    for bullet in bullets:
+        if not bullet.alive:
+            bullets.remove(bullet)
