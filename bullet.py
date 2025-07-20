@@ -55,6 +55,10 @@ class Bullet2(Bullet):
     TEXTURE_FILENAME = "images/blaster/blaster_2_75.png"
 
 
+class Bullet3(Bullet):
+    TEXTURE_FILENAME = "images/blaster/blaster_3_75.png"
+
+
 WIDTH = 1200   # ширина игрового окна
 HEIGHT = 1000  # высота игрового окна
 FPS = 30  # частота кадров в секунду
