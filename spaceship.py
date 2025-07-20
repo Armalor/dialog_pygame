@@ -11,6 +11,13 @@ class Spaceship:
         self.texture = pygame.image.load("images/spaceship3_200.png").convert_alpha()
         self.texture_rect = self.texture.get_rect()
 
+        w, h, = self.texture_rect.size
+
+        # Уменьшаем размер кораблика вдвое
+        self.texture = pygame.transform.scale(self.texture, (w // 2, h // 2))
+        # Пересохраняем texture_rect, иначе останутся старые размеры:
+        self.texture_rect = self.texture.get_rect()
+
         self.screen = screen
         screen_width, screen_height = screen.get_size()
 
