@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
         # Рендеринг
         screen.fill(BLACK)
-        if
+
         for event in pygame.event.get():
             # проверить закрытие окна
             if event.type == pygame.QUIT:
