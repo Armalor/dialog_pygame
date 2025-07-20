@@ -1,17 +1,11 @@
 from socketserver import ThreadingTCPServer, BaseRequestHandler
-import re
-from queue import Queue
-from typing import Dict, List
-from time import perf_counter, sleep
-from statistics import mean
-from threading import Thread, Lock
-from enum import IntEnum, Enum
-from dataclasses import dataclass
 
 
 class ConnectionHandler(BaseRequestHandler):
 
     def __init__(self, request, client_address, server):
+
+        self.users = dict()
 
         super().__init__(request, client_address, server)
 
@@ -24,14 +18,20 @@ class ConnectionHandler(BaseRequestHandler):
                 print(f"Client suddenly closed while receiving")
                 break
             if not data:
+                print(f"Client unexpectedly closed connection")
                 break
 
             data = data.decode()
 
             print(data)
 
+            if self.client_address not in self.users:
+                answer = ''
+            elif self.users[self.client_address] is None:
+                self.users[self.client_address] = data
+
             try:
-                ...
+                self.request.sendall(b'test: }' + data)
 
             except ConnectionError:
                 print(f"Client suddenly closed, cannot send")
