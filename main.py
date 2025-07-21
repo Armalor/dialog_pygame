@@ -20,12 +20,11 @@ if __name__ == '__main__':
     pygame.mixer.init()  # для звука
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-    # Внимание! Мы можем создавать класс Spaceship только ПОСЛЕ инициализации screen!
-
-    ship = Spaceship(velocity=20, screen=screen)
-
     pygame.display.set_caption("My Game")
     clock = pygame.time.Clock()
+
+    # Внимание! Мы можем создавать класс Spaceship только ПОСЛЕ инициализации screen!
+    ship = Spaceship(velocity=20, screen=screen)
 
     running = True
     while running:

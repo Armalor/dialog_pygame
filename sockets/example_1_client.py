@@ -15,5 +15,5 @@ if host:
         message = input()
         sock.send(bytes(message, encoding='UTF-8'))  # отправляем сообщение
         data = sock.recv(1024)  # читаем ответ от серверного сокета
-        print(data)
+        print(data.decode())
     sock.close()  # закрываем соединение

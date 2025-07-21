@@ -35,13 +35,13 @@ def handle_client(client_socket, client_address):
 
 def broadcast(message, source_socket):
     for client in clients:
-        # if client != source_socket:
-        try:
-            client.sendall(b'broadcast: ' + message.encode('utf-8'))
-        except Exception as e:
-            print(f"Error broadcasting to client: {e}")
-            clients.remove(client)
-            client.close()
+        if client != source_socket:
+            try:
+                client.sendall(b'broadcast: ' + message.encode('utf-8'))
+            except Exception as e:
+                print(f"Error broadcasting to client: {e}")
+                clients.remove(client)
+                client.close()
 
 
 def main():
