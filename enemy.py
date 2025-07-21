@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pygame
 from pygame.surface import Surface
+from pygame.rect import Rect
 from pygame.key import ScancodeWrapper
 from typing import Type, Callable
 import random as r
@@ -53,6 +54,9 @@ class Enemy(ABC):
     def draw(self):
         self.screen.blit(self.texture, self.texture_rect)
 
+    def test_die(self, bullet_rect: Rect):
+        if self.texture_rect.colliderect(bullet_rect):
+            Enemyregister.enemies.remove(self)
 
 class Enemy1(Enemy):
     TEXTURE_FILENAME = "images/spaceship2_200_down.png"

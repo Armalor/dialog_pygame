@@ -2,6 +2,7 @@ import pygame
 import random as r
 from enemy import Enemy1, Enemyregister
 from spaceship import Spaceship
+from spaceship2 import Spaceship2
 from bullet import BulletRegistry, Bullet
 
 WIDTH = 1200   # ширина игрового окна
@@ -22,7 +23,8 @@ if __name__ == '__main__':
 
     # Внимание! Мы можем создавать класс Spaceship только ПОСЛЕ инициализации screen!
 
-    ship = Spaceship(velocity=20, screen=screen)
+    ship1 = Spaceship(velocity=20, screen=screen)
+    ship2 = Spaceship2(velocity=20, screen=screen)
     enemy = Enemy1(r.randint(1, 1200), -10, velocity=10, screen=screen)
     pygame.display.set_caption("My Game")
     clock = pygame.time.Clock()
@@ -40,15 +42,26 @@ if __name__ == '__main__':
                 running = False
 
         keys = pygame.key.get_pressed()
-        ship.move(keys)
-        ship.draw()
+        ship1.move(keys)
+        ship1.draw()
+        ship2.move(keys)
+        ship2.draw()
         enemy.spawn()
+
+
+        for enemy in Enemyregister.enemies:
+            for bullet in BulletRegistry.bullets:
+                enemy.test_die(bullet.texture_rect)
+
         for bullet in BulletRegistry.bullets:  # type: Bullet
             bullet.move()
             bullet.draw()
 
         for enemy in Enemyregister.enemies:
+
+
             enemy.move()
+
             enemy.draw()
 
         # print(len(BulletRegistry.bullets))
