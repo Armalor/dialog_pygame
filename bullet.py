@@ -1,3 +1,4 @@
+import json
 from abc import ABC, abstractmethod
 import pygame
 from pygame.surface import Surface
@@ -29,7 +30,6 @@ class Bullet(ABC):
     def __init__(self, velocity, x, y, screen: Surface):
         self.texture = pygame.image.load(self.TEXTURE_FILENAME).convert_alpha()
         self.texture_rect = self.texture.get_rect()
-
         self.texture_rect.center = (x, y - self.texture_rect.height // 2)
 
         self.screen = screen
@@ -40,11 +40,18 @@ class Bullet(ABC):
     def move(self):
         if self.texture_rect.bottom > 0:
             self.texture_rect.move_ip(0, -self.velocity)
+
         else:
             BulletRegistry.bullets.remove(self)
 
     def draw(self):
         self.screen.blit(self.texture, self.texture_rect)
+
+    def to_bytestr(self):
+        js_dict = {'type': 'e'}
+        js_dict["x"] = self.texture_rect.center[0]
+        js_dict["y"] = self.texture_rect.center[1]
+        return json.dumps(js_dict).encode()
 
 
 class Bullet1 (Bullet):

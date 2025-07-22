@@ -7,7 +7,7 @@ from typing import Type, Callable
 import random as r
 from time import perf_counter
 from bullet import BulletRegistry, Bullet
-
+import json
 class Enemyregister:
     __instance: 'EnemyRegistry' = None
     enemies: list = list()
@@ -57,7 +57,11 @@ class Enemy(ABC):
     def test_die(self, bullet_rect: Rect):
         if self.texture_rect.colliderect(bullet_rect):
             Enemyregister.enemies.remove(self)
-
+    def to_bytestr(self):
+        js_dict = dict()
+        js_dict["x"] = self.texture_rect.center[0]
+        js_dict["y"] = self.texture_rect.center[1]
+        return json.dumps(js_dict).encode()
 class Enemy1(Enemy):
     TEXTURE_FILENAME = "images/spaceship2_200_down.png"
 
