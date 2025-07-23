@@ -6,11 +6,7 @@ from net import Net
 HOST = ''
 PORT = Net.SERVER_PORT
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server_socket.bind((HOST, PORT))
-server_socket.listen(2)
-print(f"Server listening on {HOST}:{22_222}")
+
 
 clients = []
 names = dict()
@@ -58,6 +54,12 @@ def server():
 
 
 if __name__ == "__main__":
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind((HOST, PORT))
+    server_socket.listen(2)
+    print(f"Server listening on {HOST}:{22_222}")
+
     thread = threading.Thread(target=server())
     # main()
     thread.start()

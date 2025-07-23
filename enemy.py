@@ -57,11 +57,7 @@ class Enemy(ABC):
     def test_die(self, bullet_rect: Rect):
         if self.texture_rect.colliderect(bullet_rect):
             Enemyregister.enemies.remove(self)
-    def to_bytestr(self):
-        js_dict = dict()
-        js_dict["x"] = self.texture_rect.center[0]
-        js_dict["y"] = self.texture_rect.center[1]
-        return json.dumps(js_dict).encode()
+
 class Enemy1(Enemy):
     TEXTURE_FILENAME = "images/spaceship2_200_down.png"
 
