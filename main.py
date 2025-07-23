@@ -1,12 +1,16 @@
-import random
+import json
 import pygame
-from time import perf_counter, sleep
-from spaceship import Spaceship
-from spaceship import Bullet, bullets, Enemy, enemies, update, collusion
+import socket
+import threading
+from net import Net
+from  time import sleep
 
-WIDTH = 800
-HEIGHT = 800
-FPS = 60
+from spaceship import Spaceship
+from bullet import  Bullet, bullets
+
+WIDTH = 800   # ширина игрового окна
+HEIGHT = 800  # высота игрового окна
+FPS = 30      # частота кадров в секунду
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -14,66 +18,63 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+
+def handle_client(client_socket: socket.socket, c):
+    while True:
+        bullets_to_client = []
+        for bullet in bullets:
+            b = {'type': 'b'}
+            b['x'] = bullet.texture_rect.center[0]
+            b['y'] = bullet.texture_rect.center[1]
+            bullets_to_client.append(b)
+
+        if bullets_to_client:
+            client_socket.sendall(json.dumps(bullets_to_client).encode())
+            sleep(1/30.0)
+
+
+def server():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    HOST = ""
+    server_socket.bind((HOST, Net.SERVER_PORT))
+    server_socket.listen(5)
+    print(f"Server listening on {HOST}:{Net.SERVER_PORT}")
+
+    while True:
+        client_socket, client_address = server_socket.accept()
+        thread = threading.Thread(target=handle_client, args=(client_socket, client_address), daemon=True)
+        thread.start()
+
+
 if __name__ == '__main__':
-    # создаем игру и окно
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    ship = Spaceship(velocity=10, screen=screen)
-
-    pygame.display.set_caption("My Game")
+    pygame.display.set_caption("SERVER")
     clock = pygame.time.Clock()
-
-    font = pygame.font.Font(None, 72)
-    text = font.render("GAME OVER", True, (255, 255, 255))
-    text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-
-    t0 = perf_counter()
-
+    ship = Spaceship(velocity=20, screen=screen)
     running = True
+
+    server_thread = threading.Thread(target=server)
+    server_thread.start()
+
     while running:
         clock.tick(FPS)
+
         screen.fill(BLACK)
-
-        drawing_bullet = False  # рисовать ли очередную пулю
-        drawing_enemy = False
-
-        if not ship.alive:
-            screen.fill(RED)  # Заполняем экран красным цветом
-            print('Проигрыш')
-            sleep(2)
-
-            break
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYUP:       # Рисовать пулю, только если отпущен пробел!!!
-                if event.key == pygame.K_SPACE:  #                                            |
-                    drawing_bullet = True  # <------------------------------------------------
+
 
         keys = pygame.key.get_pressed()
-
-        if drawing_bullet:
-            # Добавление новой пули в список пуль (немного подгоняются координаты)
-            Bullet(-10, ship.texture_rect.center[0] + 1, ship.texture_rect.center[1] - 70, screen)
-
-        if perf_counter() - t0 > 1:
-            t0 = perf_counter()
-            Enemy(3, random.randint(100, WIDTH - 100), 100, screen)
-
-        collusion(ship, HEIGHT)  # проверить столкноевение корабля и врагов и врагов и пуль
-        update()  # обновить список
-
-        for bullet in bullets:  # проходимся по всем пулям, двигаем их и рисуем
-            bullet.move()
-            bullet.draw()
-
-        for enemy in enemies:
-            enemy.draw()
-            enemy.move()
-
         ship.move(keys)
         ship.draw()
+
+        for bullet in bullets:  # type: Bullet
+            bullet.move()
+            bullet.draw()
 
         pygame.display.flip()
