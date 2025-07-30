@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import pygame
 from pygame.surface import Surface
-from pygame.key import ScancodeWrapper
+from threading import Lock
 from typing import Type, Callable
 
 
@@ -10,6 +10,8 @@ class BulletRegistry:
     __instance: 'BulletRegistry' = None
 
     bullets: list = list()
+
+    lock: Lock = Lock()
 
     def __new__(cls, *args, **kwargs):
 

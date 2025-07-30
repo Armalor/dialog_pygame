@@ -4,8 +4,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class Net:
 
+    HOST = ""
     # SERVER_PORT = 11_111
-    SERVER_PORT = 22_222
+    SERVER_PORT = 54_321
 
     @staticmethod
     def get_local_ip():

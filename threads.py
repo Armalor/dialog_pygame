@@ -7,14 +7,15 @@ counter = 0
 blocker = Lock()
 
 
-def in_thread(stop=1000_000, name=None):
+def in_thread(stop, lock: Lock = Lock(), name=None):
     global counter
     for i in range(stop):
-        # sleep(random.random())
-        with blocker:
-            counter += 1
+        with lock:
+            temp = counter
+            sleep(0.0001)
+            counter = temp + 1
 
-        # print(f'thread {name}: {counter}')
+    print(f'thread {name}: {counter}')
 
 
 if __name__ == '__main__':
@@ -23,11 +24,13 @@ if __name__ == '__main__':
     print(f'Counter: {counter}')
 
     threads = []
-    for i in range(5):
-        t = Thread(target=in_thread, args=(1_000_000, f'thread_{i}'))
+    for i in range(10):
+        t = Thread(target=in_thread, args=(10, blocker, f'thread_{i}'), daemon=True)
         t.start()
 
-    for t in threads:
-        t.join()
+        threads.append(t)
+    #
+    # for t in threads:
+    #     t.join()
 
     print(f'Counter after: {counter}')
